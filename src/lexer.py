@@ -31,15 +31,18 @@ class TokenType(Enum):
     NEQ, LTE, GTE, NEWLINE = 25, 26, 27, 28
 
     # Keywords.
-    ID, FUNC, IF, ELSE = 29, 30, 31, 32
-    WHILE, RETURN, BREAK, CONTINUE = 33, 34, 35, 36
-    SEQ, PAR, C_CHANNEL, S_CHANNEL, FOR = 37, 38, 39, 40, 41
+    FUNC, IF, ELSE = 29, 30, 31
+    WHILE, RETURN, BREAK, CONTINUE = 32, 33, 34, 35
+    SEQ, PAR, C_CHANNEL, S_CHANNEL, FOR = 36, 37, 38, 39, 40
 
     # Whitespace.
-    WHITESPACE = 42
+    WHITESPACE = 41
+
+    # Types.
+    NUMBER_TYPE, BOOL_TYPE, STRING_TYPE, VOID_TYPE = 42, 43, 44, 45
 
     # Other.
-    OTHER = 43
+    OTHER = -1
 
 
 class Token:
@@ -84,7 +87,6 @@ class Scanner:
     error reporting for invalid or unmatched characters.
     """
     keywords = {
-        "id": TokenType.ID,
         "func": TokenType.FUNC,
         "if": TokenType.IF,
         "else": TokenType.ELSE,
@@ -93,6 +95,14 @@ class Scanner:
         "break": TokenType.BREAK,
         "continue": TokenType.CONTINUE,
         "seq": TokenType.SEQ,
+        "par": TokenType.PAR,
+        "c_channel": TokenType.C_CHANNEL,
+        "s_channel": TokenType.S_CHANNEL,
+        "for": TokenType.FOR,
+        "number": TokenType.NUMBER_TYPE,
+        "bool": TokenType.BOOL_TYPE,
+        "string": TokenType.STRING_TYPE,
+        "void": TokenType.VOID_TYPE,
     }
 
     source: str
@@ -316,6 +326,9 @@ class Scanner:
                     self._add_token(TokenType.GTE)
                 else:
                     self._add_token(TokenType.GREATER)
+            case "#":
+                while not self._match("\n"):
+                    self._advance()
             case "/":
                 if self._match("*"):
                     while not self._match("/"):
