@@ -18,32 +18,31 @@ class TokenType(Enum):
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE = 1, 2, 3, 4
     COMMA, DOT, MINUS, PLUS = 5, 6, 7, 8
     SEMICOLON, SLASH, STAR, LESS = 9, 10, 11, 12
-    GREATER, ASSIGN, TYPEOF = 13, 14, 15
+    NOT, GREATER, ASSIGN, TYPEOF = 13, 14, 15, 16
 
     # Literals.
-    NAME, NUMBER, STRING = 16, 17, 18
+    NAME, NUMBER, STRING = 17, 18, 19
 
     # Comments.
-    SCOMMENT, MCOMMENT = 19, 20
+    SCOMMENT, MCOMMENT = 20, 21
 
     # Two chars tokens.
-    RARROW, OR, AND, EQ = 21, 22, 23, 24
-    NEQ, LTE, GTE, NEWLINE = 25, 26, 27, 28
+    RARROW, OR, AND, EQ = 22, 23, 24, 25
+    NEQ, LTE, GTE, NEWLINE = 26, 27, 28, 29
 
     # Keywords.
-    FUNC, IF, ELSE = 29, 30, 31
-    WHILE, RETURN, BREAK, CONTINUE = 32, 33, 34, 35
-    SEQ, PAR, C_CHANNEL, S_CHANNEL, FOR = 36, 37, 38, 39, 40
+    FUNC, IF, ELSE = 30, 31, 32
+    WHILE, RETURN, BREAK, CONTINUE = 33, 34, 35, 36
+    SEQ, PAR, C_CHANNEL, S_CHANNEL, FOR = 37, 38, 39, 40, 41
 
     # Whitespace.
-    WHITESPACE = 41
+    WHITESPACE = 42
 
     # Types.
-    NUMBER_TYPE, BOOL_TYPE, STRING_TYPE, VOID_TYPE = 42, 43, 44, 45
+    NUMBER_TYPE, BOOL_TYPE, STRING_TYPE, VOID_TYPE = 43, 44, 45, 46
 
     # Other.
     OTHER = -1
-
 
 class Token:
     """
@@ -297,8 +296,7 @@ class Scanner:
                 if self._match("="):
                     self._add_token(TokenType.NEQ)
                 else:
-                    error.report(self.line, "Unexpected character.")
-                    self._add_token(TokenType.OTHER)
+                    self._add_token(TokenType.NOT)
             case "|":
                 if self._match("|"):
                     self._add_token(TokenType.OR)
